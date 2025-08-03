@@ -1,0 +1,33 @@
+{
+  "servers": {
+    "ssh-mcp-server": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["build/index.js"],
+      "env": {
+        "UBUNTU_SSH_HOST": "192.168.1.100",
+        "UBUNTU_SSH_PORT": "22",
+        "UBUNTU_SSH_USERNAME": "ubuntu",
+        "UBUNTU_SSH_PASSWORD": "your_password_here"
+      }
+    }
+  }
+}
+
+// 秘密鍵認証を使用する場合の設定例:
+// {
+//   "servers": {
+//     "ssh-mcp-server": {
+//       "type": "stdio",
+//       "command": "node",
+//       "args": ["build/index.js"],
+//       "env": {
+//         "UBUNTU_SSH_HOST": "192.168.1.100",
+//         "UBUNTU_SSH_PORT": "22",
+//         "UBUNTU_SSH_USERNAME": "ubuntu",
+//         "UBUNTU_SSH_PRIVATE_KEY_PATH": "/path/to/your/private/key",
+//         "UBUNTU_SSH_PRIVATE_KEY_PASSPHRASE": "your_passphrase_here"
+//       }
+//     }
+//   }
+// }
