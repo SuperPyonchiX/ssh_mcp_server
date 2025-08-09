@@ -81,61 +81,52 @@ class VirtualBoxUbuntuServer {
         tools: [
           {
             name: 'connect_ssh',
-            description: 'Connect to Ubuntu VM via SSH. Uses environment variables as defaults if parameters are not provided.',
+            description: 'Ubuntu VMにSSH接続します。パラメータが提供されない場合は環境変数をデフォルトとして使用します。',
             inputSchema: {
               type: 'object',
               properties: {
                 host: {
                   type: 'string',
-                  description: 'SSH host address (e.g., 192.168.1.100). Uses UBUNTU_SSH_HOST env var if not provided.',
+                  description: 'SSHホストアドレス（例: 192.168.1.100）。提供されない場合はUBUNTU_SSH_HOST環境変数を使用します。',
                 },
                 port: {
                   type: 'number',
-                  description: 'SSH port (default: 22). Uses UBUNTU_SSH_PORT env var if not provided.',
+                  description: 'SSHポート（デフォルト: 22）。提供されない場合はUBUNTU_SSH_PORT環境変数を使用します。',
                   default: 22,
                 },
                 username: {
                   type: 'string',
-                  description: 'SSH username. Uses UBUNTU_SSH_USERNAME env var if not provided.',
+                  description: 'SSHユーザー名。提供されない場合はUBUNTU_SSH_USERNAME環境変数を使用します。',
                 },
                 password: {
                   type: 'string',
-                  description: 'SSH password (optional if using private key). Uses UBUNTU_SSH_PASSWORD env var if not provided.',
+                  description: 'SSHパスワード（秘密鍵を使用する場合はオプション）。提供されない場合はUBUNTU_SSH_PASSWORD環境変数を使用します。',
                 },
                 privateKey: {
                   type: 'string',
-                  description: 'Private key content (optional). Uses UBUNTU_SSH_PRIVATE_KEY_PATH env var to read file if not provided.',
+                  description: '秘密鍵の内容（オプション）。提供されない場合はUBUNTU_SSH_PRIVATE_KEY_PATH環境変数からファイルを読み込みます。',
                 },
                 privateKeyPassphrase: {
                   type: 'string',
-                  description: 'Private key passphrase (optional). Uses UBUNTU_SSH_PRIVATE_KEY_PASSPHRASE env var if not provided.',
+                  description: '秘密鍵のパスフレーズ（オプション）。提供されない場合はUBUNTU_SSH_PRIVATE_KEY_PASSPHRASE環境変数を使用します。',
                 },
               },
               required: [],
             },
           },
           {
-            name: 'connect_ssh_env',
-            description: 'Connect to Ubuntu VM via SSH using only environment variables',
-            inputSchema: {
-              type: 'object',
-              properties: {},
-              required: [],
-            },
-          },
-          {
             name: 'execute_command',
-            description: 'Execute a command on the connected Ubuntu VM',
+            description: '接続されたUbuntu VMでコマンドを実行します',
             inputSchema: {
               type: 'object',
               properties: {
                 command: {
                   type: 'string',
-                  description: 'Command to execute on the Ubuntu VM',
+                  description: 'Ubuntu VMで実行するコマンド',
                 },
                 cwd: {
                   type: 'string',
-                  description: 'Working directory for the command (optional)',
+                  description: 'コマンドの作業ディレクトリ（オプション）',
                 },
               },
               required: ['command'],
@@ -143,17 +134,17 @@ class VirtualBoxUbuntuServer {
           },
           {
             name: 'upload_file',
-            description: 'Upload a file to the Ubuntu VM',
+            description: 'Ubuntu VMにファイルをアップロードします',
             inputSchema: {
               type: 'object',
               properties: {
                 localPath: {
                   type: 'string',
-                  description: 'Local file path',
+                  description: 'ローカルファイルパス',
                 },
                 remotePath: {
                   type: 'string',
-                  description: 'Remote file path on Ubuntu VM',
+                  description: 'Ubuntu VM上のリモートファイルパス',
                 },
               },
               required: ['localPath', 'remotePath'],
@@ -161,17 +152,17 @@ class VirtualBoxUbuntuServer {
           },
           {
             name: 'download_file',
-            description: 'Download a file from the Ubuntu VM',
+            description: 'Ubuntu VMからファイルをダウンロードします',
             inputSchema: {
               type: 'object',
               properties: {
                 remotePath: {
                   type: 'string',
-                  description: 'Remote file path on Ubuntu VM',
+                  description: 'Ubuntu VM上のリモートファイルパス',
                 },
                 localPath: {
                   type: 'string',
-                  description: 'Local file path',
+                  description: 'ローカルファイルパス',
                 },
               },
               required: ['remotePath', 'localPath'],
@@ -179,7 +170,7 @@ class VirtualBoxUbuntuServer {
           },
           {
             name: 'disconnect_ssh',
-            description: 'Disconnect from the Ubuntu VM',
+            description: 'Ubuntu VMから切断します',
             inputSchema: {
               type: 'object',
               properties: {},
@@ -187,7 +178,7 @@ class VirtualBoxUbuntuServer {
           },
           {
             name: 'get_system_info',
-            description: 'Get system information from the Ubuntu VM',
+            description: 'Ubuntu VMからシステム情報を取得します。以下の詳細なシステム情報を取得します:\n- システム情報 (uname -a)\n- OS リリース情報 (lsb_release -a)\n- ディスク使用量 (df -h)\n- メモリ使用量 (free -h)\n- 実行中のプロセス (ps aux)',
             inputSchema: {
               type: 'object',
               properties: {},
@@ -204,8 +195,6 @@ class VirtualBoxUbuntuServer {
         switch (name) {
           case 'connect_ssh':
             return await this.connectSSH(args as any);
-          case 'connect_ssh_env':
-            return await this.connectSSH({});
           case 'execute_command':
             return await this.executeCommand(args as any);
           case 'upload_file':
